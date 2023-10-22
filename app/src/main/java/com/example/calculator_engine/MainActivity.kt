@@ -20,39 +20,41 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.resultTv.text = "0"
         setContentView(binding.root)
         //setContentView(R.layout.activity_main)
     }
 
     fun onClearEntryClick(view: View) {
-        binding.dataTv.text = ""
-        binding.resultTv.text = ""
+        binding.dataTv.text = "0"
+        binding.resultTv.text = "0"
         stateError = false
         lastDot = false
         lastNumberic = false
         binding.resultTv.visibility = View.GONE
     }
     fun onClearClick(view: View) {
-        binding.dataTv.text = ""
+        binding.dataTv.text = "0"
         lastNumberic = false
-
     }
     fun onBackSpaceClick(view: View) {
-        binding.dataTv.text = binding.dataTv.text.toString()//dropLast(1)
+        binding.dataTv.text = binding.dataTv.text.toString().dropLast(1)
         try{
             val lastChar = binding.dataTv.text.toString().last()
             if(lastChar.isDigit()){
                 onEqual()
+            }else{
+                binding.dataTv.text = "0"
             }
         }catch (e: Exception){
-            binding.resultTv.text = ""
+            binding.resultTv.text = "0"
             binding.resultTv.visibility = View.GONE
             Log.e("last char error", e.toString())
         }
     }
     fun onOperatorClick(view: View) {
         if(!stateError && lastNumberic){
-            if((view as Button).text == "X"){
+            if((view as Button).text == "x"){
                 binding.dataTv.append("*")
                 lastDot = false
                 lastNumberic = false
