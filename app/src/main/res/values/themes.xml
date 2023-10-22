@@ -9,7 +9,7 @@
 
     <style name="operatorButton" parent="commonButton">
         <item name="android:textColor">@color/black</item>
-        <item name="backgroundTint">@color/gray</item>
+        <item name="backgroundTint">@color/linecolor</item>
     </style>
 
     <style name="digitButton" parent="commonButton">

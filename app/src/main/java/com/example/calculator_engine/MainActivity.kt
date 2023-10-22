@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     var lastNumberic = false
     var stateError = false
-    //var lastDot = false
+    var lastDot = false
 
     private lateinit var expression: Expression
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         binding.dataTv.text = ""
         binding.resultTv.text = ""
         stateError = false
-        //lastDot = false
+        lastDot = false
         lastNumberic = false
         binding.resultTv.visibility = View.GONE
     }
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun onBackSpaceClick(view: View) {
-        binding.dataTv.text = binding.dataTv.text.toString().dropLast(1)
+        binding.dataTv.text = binding.dataTv.text.toString()//dropLast(1)
         try{
             val lastChar = binding.dataTv.text.toString().last()
             if(lastChar.isDigit()){
@@ -52,10 +52,17 @@ class MainActivity : AppCompatActivity() {
     }
     fun onOperatorClick(view: View) {
         if(!stateError && lastNumberic){
-            binding.dataTv.append((view as Button).text)
-            //lastDot = false
-            lastNumberic = false
-            onEqual()
+            if((view as Button).text == "X"){
+                binding.dataTv.append("*")
+                lastDot = false
+                lastNumberic = false
+                onEqual()
+            }else{
+                binding.dataTv.append((view as Button).text)
+                lastDot = false
+                lastNumberic = false
+                onEqual()
+            }
         }
     }
     fun onDigitClick(view: View) {
@@ -70,14 +77,14 @@ class MainActivity : AppCompatActivity() {
     }
     fun onEqualClick(view: View) {
         onEqual()
-        binding.dataTv.text = binding.resultTv.text.toString().drop(1)
+        binding.dataTv.text = binding.resultTv.text.toString()
     }
     fun onEqual(){
         if(lastNumberic && !stateError){
             var txt = binding.dataTv.text.toString()
             expression = ExpressionBuilder(txt).build()
             try{
-                val result = expression.evaluate()
+                val result = expression.evaluate().toInt()
                 binding.resultTv.visibility = View.VISIBLE
                 binding.resultTv.text = "=" + result.toString()
             }catch (ex: ArithmeticException){
